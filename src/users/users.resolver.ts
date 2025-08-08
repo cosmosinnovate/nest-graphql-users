@@ -2,12 +2,15 @@ import { Args, Int, Resolver, Query, Mutation } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
+import { UseGuards } from '@nestjs/common';
+import { GqlAuthGuard } from '../auth/gql-auth.guard';
 
 @Resolver()
 export class UsersResolver {
   constructor(private readonly userService: UsersService) {}
 
   @Query(() => [User])
+  @UseGuards(GqlAuthGuard)
   users() {
     return this.userService.findAll();
   }
