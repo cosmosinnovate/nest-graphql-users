@@ -4,6 +4,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { SupabaseModule } from './supabase/supabase.module';
 
 @Module({
   imports: [
@@ -11,9 +12,11 @@ import { AuthModule } from './auth/auth.module';
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'), // Code-first schema
       context: ({ req }) => ({ req }),
+      introspection: true, // Useful for Supabase integration
     }),
     UsersModule,
     AuthModule,
+    SupabaseModule,
   ],
 })
 export class AppModule {}
